@@ -1,0 +1,87 @@
+{% extends 'thebasenoautho.html' %}
+{%block content%}
+{% load static %}
+{% load i18n %}
+        <div class="col-9">
+          <h2 style="margin-left: 105px; margin-top: 15px; margin-bottom: 15px;"> <strong>{% trans 'Регистрация' %}</strong> </h2>
+                    <div>
+                        <form method="post">
+
+                            <div class="rowplusfirst" style="height: 65px">
+                              <div class="col-3">
+                                  <label for="InputNickname" class="form-label" style="margin-top: 10px;">{% trans 'Логин:'%}</label>
+                                </div>
+                                <div class="col-7" style="margin-top: 10px;">
+                                 {{ form.username }}
+                                        <div class="invalid-feedback">
+                                            Ошибка ввода
+                                        <p style="font-size: 10px; color:black">{% trans 'Используйте:'%} A-Z, a-z, _</p>
+                                        </div>
+                                  </div>
+                            </div>
+
+                            <div class="rowplusunder">
+                              <div class="col-3">
+                                <label for="InputName" class="form-label" style="margin-top: 10px;">{% trans 'Почта:'%}</label>
+                              </div>
+                              <div class="col-7" style="margin-top: 10px;">
+                                {{ form.email }}
+                                    <p style="font-size: 10px;">{% trans 'Используйте:'%} A-Z, a-z, А-Я, а-я</p>
+                                </div>
+                                <div class="col-3" style="margin-top: 10px; margin-bottom: 10px;">
+                                  <label for="InputAvatar">{% trans 'НикНейм:' %}</label>
+                                </div>
+                                <div class="col-7" style="margin-top: 10px;margin-bottom: 10px;">
+                                  {{ form.nickname }}
+                                  </div>
+                            </div>
+
+                            <div class="rowplus">
+                              <div class="col-3" style="margin-top: 10px;">
+                                <label for="InputPassword" class="form-label">{% trans 'Пароль:'%} </label>
+                              </div>
+                              <div class="col-7" style="margin-top: 10px;">
+                               {{ form.password }}
+                                <p style="font-size: 10px;">{% trans 'Используйте:'%} A-Z, a-z; 0-9. {% trans 'Минимум 6 символов'%}.</p>
+                                </div>
+                            </div>
+
+                            <div class="rowplusunder">
+                                <div class="col-3" style="margin-top: 10px; margin-bottom: 10px;">
+                                <label for="InputPasswordRepeat" class="form-label">{% trans 'Повторите пароль:'%}</label>
+                              </div>
+                              <div class="col-7" style="margin-top: 10px;margin-bottom: 10px;">
+                                {{ form.password_check }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- <button type="submit" onclick="document.getElementById('TmpError').style.display = 'block'"
+                                class="btn btn-primary">Войти</button>
+                             <div id="TmpError" style="display:none; color: red;"> Ошибка при вводе данных </div>  -->
+                            <!-- ПРОСТО ПРИМЕР, КАК ПО НАЖАТИИ КНОПКИ ВЫХОДИТ ОШИБКА.-->
+                            <div class="row" style="margin-left: 105px;">
+                              <button type="submit" class="btn btn-orange">{% trans 'Создать аккаунт' %}</button>
+                            </div>
+                                   {% if form.errors %} <!-- Добавьте эту строку -->
+  <div class="alert alert-danger"> <!-- Добавьте этот блок -->
+    <ul>
+      {% for field in form %}
+      {% if field.errors %}
+      {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}}
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+                            <!-- <div style="color: red;"> Ошибка при вводе данных </div> -->
+                        </form>
+                    </div>
+        </div>
+        
+         
+{% endblock %}

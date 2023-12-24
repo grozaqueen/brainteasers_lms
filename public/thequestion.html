@@ -1,0 +1,89 @@
+
+{% extends 'thebase.html' %}
+{%block content%}
+{% load static %}
+{% load i18n %}
+        <div class = "col-9" >
+
+
+
+
+<form method="POST" action="{% url 'check_answer' %}">
+    <input type="hidden" id="markQInput" name="markQInput" value="{% if question.liked %}1{% else %}0{% endif %}">
+            <div class="rowplusfirst">
+              <div class="col-2">
+                  <!-- <div class="row"> -->
+                  <img src="{%static question.ad%}" height="110px" width="110px"
+                      style="border: 1px solid black; object-fit: cover; margin-top: 15px; margin-bottom: 20px; margin-left: 2px;">
+                  <!-- </div> -->
+              </div>
+              <div class="col-9">
+                    <div class="row">
+                        <a href="{% url 'question' question.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{question.title}}
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div style="font-size: 17px; color:black"> {{question.content}} </div>
+                    </div>
+                    <div class="row">
+                      <div class=" col-2" style="margin-left: 480px;">
+                        <button type="button" class="btn btn-danger btn-icon" style="padding: 1px 10px; line-height: 6px; margin-bottom: 15px;" onclick="toggleLike()">
+    <span class="icon"><i class="fa fa-heart" style="vertical-align: middle;"></i><span id="markQ" value="0" style="margin-left: 7px">{{ question.kol }}</span></span>
+    <span id="likeText">{% if question.liked %}Unlike{% else %}Like!{% endif %}</span>
+</button>
+
+
+<script>
+
+function toggleLike() {
+    var valueElement = document.getElementById('markQ');
+    var likeText = document.getElementById('likeText');
+    var markQInput = document.getElementById('markQInput');
+    var liked = (likeText.innerText == 'Unlike');
+
+    if (liked) {
+        var currentValue = parseInt(valueElement.innerText);
+        valueElement.innerText = currentValue - 1;
+        likeText.innerText = 'Like!';
+        markQInput.value = '0'; // Устанавливаем значение markQ на 0
+    } else {
+        var currentValue = parseInt(valueElement.innerText);
+        valueElement.innerText = currentValue + 1;
+        likeText.innerText = 'Unlike';
+        markQInput.value = '1'; // Устанавливаем значение markQ на 1
+    }
+}
+
+</script>
+
+                      </div>
+                    </div>
+              </div>
+        </div>
+    <input type="hidden" name="question_id" value="{{ question.id }}">
+    <div class="rowplusunder" style="margin-bottom: 100px;">
+        <div class="col-3">
+            <label for="InputName" class="form-label" style="margin-top: 20px; font-weight: bold;">{% trans 'Введите свой ответ:' %}</label>
+        </div>
+        <div class="col-7" style="margin-top: 10px;">
+            <input type="text" class="form-control" id="InputName" name="InputName" placeholder="..." maxlength="50" required>
+            <p style="font-size: 10px;">{% trans 'Используйте:' %} A-Z, a-z, А-Я, а-я, 1-9, 0</p>
+        </div>
+        <button type="submit" class="btn btn-orange btn-sm btn-custom-height">{% trans 'Ответить' %}</button>
+    </div>
+</form>
+
+
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+        
+         
+      </div>
+{% endblock %}
