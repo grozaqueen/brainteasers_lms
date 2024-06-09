@@ -142,8 +142,7 @@ def thelogin(request):
                 login_form.add_error(None, "Неверный пароль или такого пользователя не существует")
 
     return render(request, 'thelogin.html', context={'form':login_form, 'hot_users':hot_users})
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login/', redirect_field_name='continue')
+
 def signup(request):
 
     if request.method == "GET":
@@ -169,7 +168,7 @@ def signup(request):
 
 def question(request, q_id):
     element = next((item for sublist in questions for item in sublist if item['id'] == q_id), None)
-
+    name = request.user.profile.nickname
     # Проверяем, поставил ли пользователь лайк на данный вопрос
     if request.user.is_authenticated:
         rating = Rating.objects.filter(question__id=q_id, prof=request.user.profile).first()
@@ -179,20 +178,22 @@ def question(request, q_id):
             else:
                 element['liked'] = False
 
-    return render(request, 'thequestion.html', {'question': element, 'hot_users':hot_users})
+    return render(request, 'thequestion.html', {'question': element, 'hot_users':hot_users, 'name':name})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login/', redirect_field_name='continue')
 def show_hot(request):
+    name = request.user.profile.nickname
     sh = True
     page = request.GET.get('page')
     if not page:
         page = 1
-    return render(request, 'themain.html', {'questionpair': paginate(questions1, int(page)), 'sh':sh, 'hot_users':hot_users})
+    return render(request, 'themain.html', {'questionpair': paginate(questions1, int(page)), 'sh':sh, 'hot_users':hot_users, 'name':name})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login/', redirect_field_name='continue')
 def category(request, cat_id):
+    name = request.user.profile.nickname
     filtered_questions = []
     pair = []
     for question_set in questions:
@@ -206,7 +207,7 @@ def category(request, cat_id):
     page = request.GET.get('page')
     if not page:
         page = 1
-    return render(request, "thecategory.html", {'catquest': paginate(filtered_questions, int(page)), 'hot_users':hot_users})
+    return render(request, "thecategory.html", {'catquest': paginate(filtered_questions, int(page)), 'hot_users':hot_users, 'name':name})
 
 
 @login_required(login_url='login/', redirect_field_name='continue')

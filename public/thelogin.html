@@ -6,7 +6,9 @@
 <div class="col-9">
   <h2 style="margin-left: 105px; margin-top: 15px; margin-bottom: 15px;"><strong>{% trans 'Авторизация' %}</strong></h2>
   <div>
+{% load static %}
     <form method="post">
+    {% csrf_token %}
       <div class="rowplusfirst" style="height: 75px">
   <div class="col-3">
     <label for="InputNickname" class="form-label" style="margin-top: 10px;">{% trans 'НикНейм:' %}</label>
@@ -32,9 +34,7 @@
 </div>
      {% if form.errors %}
         <div class="alert alert-danger" style="margin-top: 10px;">
-
               <strong>{% trans 'Неверный пароль или такого пользователя не существует' %}</strong><br>
-
         </div>
       {% endif %}
     </form>

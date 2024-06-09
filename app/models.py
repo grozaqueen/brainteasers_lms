@@ -53,3 +53,11 @@ class Rating(models.Model):
     prof = models.ForeignKey(Profile, on_delete=models.CASCADE)
     markQ = models.IntegerField()
     markU = models.IntegerField()
+
+
+
+# class Comment(models.Model):
+#     text = models.TextField()
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#     date = models.DateTimeField(auto_now_add=True)

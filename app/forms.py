@@ -58,18 +58,22 @@ class RegisterForm(forms.ModelForm):
         fields = ['username', 'email', 'password']
 
     def clean(self):
-        password = self.cleaned_data['password']
-        password_check = self.cleaned_data['password_check']
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        password_check = cleaned_data.get('password_check')
+
         if password != password_check:
             self.add_error('password_check', 'Введенные пароли не совпадают.')
             raise ValidationError('Введенные пароли не совпадают.')
-        username = self.cleaned_data['username']
-        nickname = self.cleaned_data['nickname']
+
+        username = cleaned_data.get('username')
+        nickname = cleaned_data.get('nickname')
+
         if re.fullmatch(r'(\d|\w|_|-|\.)*', username) or re.fullmatch(r'(\d|\w|_|-|\.)*', username):
-            return [username,nickname]
+            return cleaned_data  # Return the cleaned_data dictionary
         else:
-            self.add_error(None,
-                           'В логине или никнейме обнаружены недопустимые символы.')
+            self.add_error(None, 'В логине или никнейме обнаружены недопустимые символы.')
             raise ValidationError(self)
 
 
