@@ -18,9 +18,6 @@
                             <div class="col-5">
                                 <h3> <strong>{% trans 'Новые ребусы!' %}</strong> </h3>
                             </div>
-                            <div class="col-5" style="display: flex; align-items: center; margin-left: 140px;">
-                                <a class="my-a-hot-questions" href="{% url 'show_hot'%}" style="margin-left: auto; text-decoration: underline; font-weight: bold; color:rgb(5, 5, 113);">{% trans 'Популярные головоломки' %}</a>
-                            </div>
                     </div>
     {%endif%}
 
@@ -41,14 +38,7 @@
                                 <div class="row">
                                     <div style="font-size: 17px; color:black">{{questionpair.0.content}}</div>
                                 </div>
-                                <div class="row">
-                                  <div class=" col-2" style="margin-left: 480px;">
-                                    <button type="button" class="btn btn-danger btn-icon" style="padding: 1px 10px; line-height: 6px; margin-bottom: 15px;" disabled>
-    <span class="icon"><i class="fa fa-heart" style="vertical-align: middle;"></i><span style="margin-left: 7px">{{questionpair.0.kol}}</span></span>Like!
-</button>
 
-                                  </div>
-                                </div>
                           </div>
                     </div>
 
@@ -68,14 +58,7 @@
                             <div class="row">
                                 <div style="font-size: 17px; color:black"> {{questionpair.1.content}} </div>
                             </div>
-                            <div class="row">
-                              <div class=" col-2" style="margin-left: 480px;">
-                                <button type="button" class="btn btn-danger btn-icon" style="padding: 1px 10px; line-height: 6px; margin-bottom: 15px;" disabled>
-    <span class="icon"><i class="fa fa-heart" style="vertical-align: middle;"></i><span style="margin-left: 7px">{{questionpair.1.kol}}</span></span>Like!
-</button>
 
-                              </div>
-                            </div>
                         </div>
                   </div>
                     {% endfor %}

@@ -25,39 +25,6 @@
                     <div class="row">
                         <div style="font-size: 17px; color:black"> {{question.content}} </div>
                     </div>
-                    <div class="row">
-                      <div class=" col-2" style="margin-left: 480px;">
-                        <button type="button" class="btn btn-danger btn-icon" style="padding: 1px 10px; line-height: 6px; margin-bottom: 15px;" onclick="toggleLike()">
-    <span class="icon"><i class="fa fa-heart" style="vertical-align: middle;"></i><span id="markQ" value="0" style="margin-left: 7px">{{ question.kol }}</span></span>
-    <span id="likeText">{% if question.liked %}Unlike{% else %}Like!{% endif %}</span>
-</button>
-
-
-<script>
-
-function toggleLike() {
-    var valueElement = document.getElementById('markQ');
-    var likeText = document.getElementById('likeText');
-    var markQInput = document.getElementById('markQInput');
-    var liked = (likeText.innerText == 'Unlike');
-
-    if (liked) {
-        var currentValue = parseInt(valueElement.innerText);
-        valueElement.innerText = currentValue - 1;
-        likeText.innerText = 'Like!';
-        markQInput.value = '0'; // Устанавливаем значение markQ на 0
-    } else {
-        var currentValue = parseInt(valueElement.innerText);
-        valueElement.innerText = currentValue + 1;
-        likeText.innerText = 'Unlike';
-        markQInput.value = '1'; // Устанавливаем значение markQ на 1
-    }
-}
-
-</script>
-
-                      </div>
-                    </div>
               </div>
         </div>
     <input type="hidden" name="question_id" value="{{ question.id }}">
@@ -71,9 +38,6 @@ function toggleLike() {
         </div>
         <button type="submit" class="btn btn-orange btn-sm btn-custom-height">{% trans 'Ответить' %}</button>
     </div>
-</form>
-
-
 {% if messages %}
     <div class="messages">
         {% for message in messages %}
@@ -81,9 +45,64 @@ function toggleLike() {
         {% endfor %}
     </div>
 {% endif %}
+</form>
 
 
-        
-         
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-12">
+        <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">{% trans 'Написать комментарий:' %}</h4>
+        <form method="post">
+            {{ form.text }}
+             <button type="submit" class="btn btn-orange btn-sm btn-custom-height" style="margin-top: 5px">{% trans 'Прокомментировать' %}</button>
+        </form>
+    </div>
+</div>
+
+
+            <div class="row" style="margin-top: 20px;">
+    <div class="col-12">
+    <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">{% trans 'Комментарии' %} <i class="fa fa-chevron-down" style="font-size: 12px; color: #666;"></i></h4>
+    <ul class="list-unstyled">
+        {% for comment in comments %}
+            <li>
+                <div class="comment">
+                    <div class="row" style="padding-left: 10px">
+                        <div class="col-6" style="text-align: left">
+                             <a href="#" style="font-size: 20px; text-decoration: underline; color:black; font-weight: bold;">{{ comment.profile.user.username }} считает:
+                            </a>
+                        </div>
+                        <div class="col-3">
+
+                            {% if comment in comments_user %}
+                             <button class="delete-comment" data-comment-id="{{ comment.id }}">×</button>
+
+                            <button class="update-comment" data-comment-id="{{ comment.id }}"><i class="fa fa-pencil" style="font-size: 12px; color: #666;"></i></button>
+                            {% endif %}
+
+
+                        </div>
+                           <div class="col-3" style="text-align: right">
+                               <p>{{ comment.date }}</p>
+                               </div>
+                    </div>
+                    <div class="col-12" style="text-align: left; word-wrap: break-word;">
+                        <div style="font-size: 17px; color:black" id="comment-text-{{ comment.id }}">{{ comment.text }}</div>
+                        <textarea id="edit-text-{{ comment.id }}" style="display: none;"></textarea>
+                        <button id="change-comment-{{ comment.id }}" style="display: none;">{% trans 'Изменить' %}</button>
+
+                    </div>
+                </div>
+            </li>
+        {% empty %}
+            <li>{% trans 'Нет комментариев' %}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+
+
       </div>
 {% endblock %}

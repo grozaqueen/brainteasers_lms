@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import math
+import json
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.views.decorators.cache import cache_control
 
-from .forms import LoginForm
+from .forms import LoginForm, CommentForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import logout
@@ -13,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 import random
 from django.db import IntegrityError
-from .models import Question, Rating, Category, Profile
+from .models import Question, Rating, Category, Profile, Comment
 from .forms import LoginForm, RegisterForm
 from django.utils.translation import gettext as _
 # Create your views here.
@@ -115,10 +117,10 @@ def paginate(objects, page, per_page=2):
     obj = paginator.get_page(page)
     return obj
 
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login/', redirect_field_name='continue')
 def index(request):
-    print("SUCCESS")
     name=request.user.profile.nickname
     page = request.GET.get('page')
     if not page:
@@ -168,17 +170,20 @@ def signup(request):
 
 def question(request, q_id):
     element = next((item for sublist in questions for item in sublist if item['id'] == q_id), None)
+    comments = Comment.objects.comments_list(q_id)
     name = request.user.profile.nickname
-    # Проверяем, поставил ли пользователь лайк на данный вопрос
-    if request.user.is_authenticated:
-        rating = Rating.objects.filter(question__id=q_id, prof=request.user.profile).first()
-        if rating:
-            if rating.markQ==1:
-                 element['liked'] = True
-            else:
-                element['liked'] = False
+    user_id = request.user.profile.id
+    comments_user = Comment.objects.filter(profile_id=user_id)
 
-    return render(request, 'thequestion.html', {'question': element, 'hot_users':hot_users, 'name':name})
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(request, q_id)
+            return redirect(reverse('question', kwargs={'q_id': q_id}))
+    else:
+        form = CommentForm()
+
+    return render(request, 'thequestion.html', {'question': element,  'comments':comments, 'hot_users':hot_users, 'name':name,  'form': form, 'comments_user':comments_user})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login/', redirect_field_name='continue')
@@ -253,3 +258,28 @@ def check_answer(request):
 
     return render(request, 'thequestion.html')
 
+
+def delete_comment(request, comment_id):
+    print("In view")
+    if request.method == 'DELETE':
+        print('Delete comment view function called, commentId:', comment_id)
+        comment = Comment.objects.get(id=comment_id)
+        comment.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+def update_comment(request, comment_id):
+    if request.method == 'PUT':
+        print('update comment view function called, commentId:', comment_id)
+        comment = Comment.objects.get(pk=comment_id)
+        data = json.loads(request.body.decode('utf-8'))  # parse JSON data from request body
+        new_text = data.get('text')
+        comment.text = new_text
+        comment.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+def exit(request):
+    print("Kek")
+    logout(request)
+    return redirect(reverse('login'))

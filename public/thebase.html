@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brainteasers!</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="../static/font-awesome-4.7.0/css/font-awesome.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="../static/logo.ico" type="image/x-icon" >
@@ -201,10 +203,19 @@
         }
         .messages {
     background-color: lightskyblue;
+            margin-top: -80px;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
 }
+        .comment {
+            text-align: center;
+            background-color: #F4A460;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
 </style>
 
@@ -226,7 +237,7 @@
               <img src="../static/avatar.jpg" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="{% url 'login'%}">{% trans 'Выход' %}</a>
+              <a class="dropdown-item" href="{% url 'exit' %}">{% trans 'Выход' %}</a>
           </div>
       </div>
       <span class="navbar-text text-white"> {% trans 'Привет,'%} {{name}}! </span>
@@ -281,6 +292,6 @@
       </div>
 
     </main>
-
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

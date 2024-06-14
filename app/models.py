@@ -54,10 +54,13 @@ class Rating(models.Model):
     markQ = models.IntegerField()
     markU = models.IntegerField()
 
+class CommentManager(models.Manager):
+    def comments_list(self, question_id):
+        return self.filter(question=question_id).order_by('-date')
 
-
-# class Comment(models.Model):
-#     text = models.TextField()
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-#     date = models.DateTimeField(auto_now_add=True)
+class Comment(models.Model):
+    text = models.TextField()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    objects = CommentManager()

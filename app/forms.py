@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 import re
 
-from app.models import Profile
+from app.models import Profile, Comment, Question
 
 
 class LoginForm(forms.Form):
@@ -88,3 +88,24 @@ class RegisterForm(forms.ModelForm):
         user_profile = Profile(nickname=nickname, avatar=avatar, user=user)
         user_profile.save()
         return user
+
+class CommentForm(forms.ModelForm):
+
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control border-secondary', 'id': 'InputText',
+                                     'placeholder': 'Введите текст комментария', 'rows': 5}), max_length=500,
+        min_length=5,
+        required=True)
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+    def save(self, request, question_id, **kwargs):
+        text = self.cleaned_data['text']
+        question = Question.objects.filter(pk=question_id).first()
+        profile = request.user.profile
+        date = datetime.now()
+        comment = Comment(text=text, question=question, profile=profile, date=date)
+        comment.save()
+        return comment
