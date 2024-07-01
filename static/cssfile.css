@@ -1,0 +1,179 @@
+header {
+            height: 60px;
+            background-color: #D2691E;
+            z-index: 10000;
+          }
+          .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #D2691E;
+            z-index: 10000;
+          }
+          .navbar-text {
+            margin-right: 10px;
+          }
+          .dropdown-menu {
+            z-index: 10000;
+          }
+          html {
+            position: relative;
+            min-height: 100%;
+          }
+          body {
+            margin-bottom: 40px;
+            background-image: url(../static/background.jpg);
+          }
+ 		    main {
+ 		      margin-top: 15px;
+ 		    }
+            .list-group-item-action:hover {
+              background-color:  rgb(255, 182, 122); /* цвет при наведении */
+            }
+        .list-group-item-action {
+          background-color:bisque;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .rowplusfirst {
+          position: relative;
+          background-color: rgb(230, 200, 145);
+          margin-bottom: 30px;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 10px;
+        }
+        .rowplusfirst::before, .rowplusfirst::after  {
+          content: '';
+          position: absolute;
+          background-color: white;
+        }
+        .rowplusfirst::before {
+          top: 95%;
+          left: 0%;
+          width: 33%;
+          height: 15%;
+        }
+        .rowplusfirst::after {
+            top: 95%;
+            left: 67%;
+            width: 33%;
+            height: 15%;
+        }
+        .rowplus {
+          position: relative;
+          background-color: rgb(230, 200, 145);
+          margin-bottom: 30px;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 5px;
+        }
+        .rowplus::before, .rowplus::after  {
+          content: '';
+          position: absolute;
+          background-color: white;
+        }
+        .rowplus::before {
+          top: 95%;
+          left: 0%;
+          width: 33%;
+          height: 15%;
+        }
+        .rowplus::after {
+            top: 95%;
+            left: 67%;
+            width: 33%;
+            height: 15%;
+        }
+                .btn-icon {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .btn > .icon {
+            position: relative;
+            left: -.75rem;
+            display: inline-block;
+            padding: .375rem .75rem;
+            background: rgba(141, 129, 125, 0.082);
+            border-radius: .25rem 0 0 .25rem;
+        }
+
+        .rowplusunder {
+          position: relative;
+          background-color: rgb(230, 200, 145);
+          margin-bottom: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: -25px;
+          padding-top: 4px;
+        }
+        .rowplusunder::before  {
+          content: '';
+          position: absolute;
+          background-color: white;
+        }
+        .rowplusunder::before {
+          top: 0%;
+          left: 33%;
+          width: 34%;
+          height: 5%;
+        }
+        .pagination .page-link {
+            color: #fff;
+            background-color: #FF6347;
+            border-color: #FFA07A;
+        }
+        .pagination .page-link:hover {
+          color: #ba2121;
+            background-color: rgb(230, 200, 145);
+            border-color: rgb(230, 200, 145);
+        }
+        ol.list-group-numbered {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          counter-reset: item;
+          width: 100%;
+        }
+        ol.list-group-numbered li {
+          position: relative;
+          counter-increment: item;
+          width: 100%;
+          box-sizing: border-box;
+          padding-left: 30px;
+          background-color:bisque;
+        }
+        ol.list-group-numbered li:before {
+          content: counter(item) ".";
+          position: absolute;
+          left: 10px;
+        }
+        .list-group-numbered li .badge {
+          float: right;
+        }
+        .bg-orange{
+          background-color:rgb(224, 98, 55);
+          color:antiquewhite;
+        }
+        .btn-orange{
+          background-color:rgb(224, 98, 55);
+          color:antiquewhite;
+          margin-top: 5px;
+          margin-bottom: 12px;
+        }
+        .messages {
+            background-color: lightskyblue;
+            margin-top: -80px;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        .comment {
+            text-align: center;
+            background-color: #F4A460;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
