@@ -49,10 +49,6 @@ class RegisterForm(forms.ModelForm):
                 raise forms.ValidationError('В имени пользователя обнаружены недопустимые символы.')
         return nickname
 
-    avatar = forms.ImageField(
-        widget=forms.FileInput(attrs={'class': 'form-control', 'id': 'InputAvatar'}), label='Загрузите аватар',
-        required=False)
-
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
@@ -71,7 +67,7 @@ class RegisterForm(forms.ModelForm):
         nickname = cleaned_data.get('nickname')
 
         if re.fullmatch(r'(\d|\w|_|-|\.)*', username) or re.fullmatch(r'(\d|\w|_|-|\.)*', username):
-            return cleaned_data  # Return the cleaned_data dictionary
+            return cleaned_data
         else:
             self.add_error(None, 'В логине или никнейме обнаружены недопустимые символы.')
             raise ValidationError(self)
@@ -94,7 +90,7 @@ class CommentForm(forms.ModelForm):
     text = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-control border-secondary', 'id': 'InputText',
                                      'placeholder': 'Введите текст комментария', 'rows': 5}), max_length=500,
-        min_length=5,
+        min_length=1,
         required=True)
 
     class Meta:

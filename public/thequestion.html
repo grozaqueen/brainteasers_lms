@@ -1,21 +1,13 @@
-
 {% extends 'thebase.html' %}
 {%block content%}
 {% load static %}
-{% load i18n %}
-        <div class = "col-9" >
-
-
-
-
-<form method="POST" action="{% url 'check_answer' %}">
-    <input type="hidden" id="markQInput" name="markQInput" value="{% if question.liked %}1{% else %}0{% endif %}">
+<div class = "col-9" >
+    <form method="POST" action="{% url 'check_answer' %}">
+        {% csrf_token %}
             <div class="rowplusfirst">
               <div class="col-2">
-                  <!-- <div class="row"> -->
                   <img src="{%static question.ad%}" height="110px" width="110px"
                       style="border: 1px solid black; object-fit: cover; margin-top: 15px; margin-bottom: 20px; margin-left: 2px;">
-                  <!-- </div> -->
               </div>
               <div class="col-9">
                     <div class="row">
@@ -26,43 +18,41 @@
                         <div style="font-size: 17px; color:black"> {{question.content}} </div>
                     </div>
               </div>
+            </div>
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <div class="rowplusunder" style="margin-bottom: 100px;">
+            <div class="col-3">
+                <label for="InputName" class="form-label" style="margin-top: 20px; font-weight: bold;">Введите свой ответ:</label>
+            </div>
+            <div class="col-7" style="margin-top: 10px;">
+                <input type="text" class="form-control" id="InputName" name="InputName" placeholder="..." maxlength="50" required>
+                <p style="font-size: 10px;">Используйте: A-Z, a-z, А-Я, а-я, 1-9, 0</p>
+            </div>
+            <button type="submit" class="btn btn-orange btn-sm btn-custom-height">Ответить</button>
         </div>
-    <input type="hidden" name="question_id" value="{{ question.id }}">
-    <div class="rowplusunder" style="margin-bottom: 100px;">
-        <div class="col-3">
-            <label for="InputName" class="form-label" style="margin-top: 20px; font-weight: bold;">{% trans 'Введите свой ответ:' %}</label>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-12">
+            <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">Написать комментарий:</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.text }}
+                 <button type="submit" class="btn btn-orange btn-sm btn-custom-height" style="margin-top: 5px">Прокомментировать</button>
+            </form>
         </div>
-        <div class="col-7" style="margin-top: 10px;">
-            <input type="text" class="form-control" id="InputName" name="InputName" placeholder="..." maxlength="50" required>
-            <p style="font-size: 10px;">{% trans 'Используйте:' %} A-Z, a-z, А-Я, а-я, 1-9, 0</p>
-        </div>
-        <button type="submit" class="btn btn-orange btn-sm btn-custom-height">{% trans 'Ответить' %}</button>
     </div>
-{% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    </div>
-{% endif %}
-</form>
 
-
-
-<div class="row" style="margin-top: 20px;">
+    <div class="row" style="margin-top: 20px;">
     <div class="col-12">
-        <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">{% trans 'Написать комментарий:' %}</h4>
-        <form method="post">
-            {{ form.text }}
-             <button type="submit" class="btn btn-orange btn-sm btn-custom-height" style="margin-top: 5px">{% trans 'Прокомментировать' %}</button>
-        </form>
-    </div>
-</div>
-
-
-            <div class="row" style="margin-top: 20px;">
-    <div class="col-12">
-    <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">{% trans 'Комментарии' %} <i class="fa fa-chevron-down" style="font-size: 12px; color: #666;"></i></h4>
+    <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">Комментарии</h4>
     <ul class="list-unstyled">
         {% for comment in comments %}
             <li>
@@ -77,7 +67,7 @@
                             {% if comment in comments_user %}
                              <button class="delete-comment" data-comment-id="{{ comment.id }}">×</button>
 
-                            <button class="update-comment" data-comment-id="{{ comment.id }}"><i class="fa fa-pencil" style="font-size: 12px; color: #666;"></i></button>
+                            <button class="update-comment" data-comment-id="{{ comment.id }}"><span class="text-primary">&lt;</span></button>
                             {% endif %}
 
 
@@ -89,20 +79,16 @@
                     <div class="col-12" style="text-align: left; word-wrap: break-word;">
                         <div style="font-size: 17px; color:black" id="comment-text-{{ comment.id }}">{{ comment.text }}</div>
                         <textarea id="edit-text-{{ comment.id }}" style="display: none;"></textarea>
-                        <button id="change-comment-{{ comment.id }}" style="display: none;">{% trans 'Изменить' %}</button>
+                        <button id="change-comment-{{ comment.id }}" style="display: none;">Изменить</button>
 
                     </div>
                 </div>
             </li>
         {% empty %}
-            <li>{% trans 'Нет комментариев' %}</li>
+            <li>Нет комментариев</li>
         {% endfor %}
     </ul>
+    </div>
+    </div>
 </div>
-
-</div>
-
-
-
-      </div>
 {% endblock %}

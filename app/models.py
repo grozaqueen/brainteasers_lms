@@ -28,9 +28,6 @@ class QuestionManager(models.Manager):
     def new_questions_list(self):
         return self.order_by('date').reverse()
 
-    def hot_questions_list(self):
-        return self.annotate(total_rating=Sum('rating__markQ')).order_by('-total_rating')
-
     def find_by_category(self, category_name):
         return self.prefetch_related('category').filter(category__title=category_name)
 

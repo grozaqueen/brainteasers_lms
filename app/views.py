@@ -1,11 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-import math
 import json
 from django.urls import reverse
 from django.core.paginator import Paginator
-from django.views.decorators.cache import cache_control
-
 from .forms import LoginForm, CommentForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -13,13 +8,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-import random
 from django.db import IntegrityError
 from .models import Question, Rating, Category, Profile, Comment
 from .forms import LoginForm, RegisterForm
 from django.utils.translation import gettext as _
-# Create your views here.
-
 word_list = Category.objects.all()
 word_ad=''
 word_ad1=''
@@ -42,7 +34,6 @@ for i in range(0, 80, 2):
         word_ad1= '/math.jpg'
     else:
         word_ad1 = '/word.jpg'
-
     questions.append([
         {
             'id': quest[i].id,
@@ -64,48 +55,6 @@ for i in range(0, 80, 2):
         }
     ])
 
-
-quest1=Question.objects.hot_questions_list()
-questions1 = []
-for i in range(0, 80, 2):
-    if (quest1[i].category.title == "Переведи!"):
-        word_ad='/logic.png'
-    elif (quest1[i].category.title == "Найди лишнее слово"):
-        word_ad = '/extra1.jpg'
-    elif (quest1[i].category.title == "Математика"):
-        word_ad = '/math.jpg'
-    else:
-        word_ad = '/word.jpg'
-    if (quest1[i+1].category.title == "Переведи!"):
-        word_ad1='/logic.png'
-    elif (quest1[i+1].category.title == "Найди лишнее слово"):
-        word_ad1 = '/extra1.jpg'
-    elif (quest1[i+1].category.title == "Математика"):
-        word_ad1= '/math.jpg'
-    else:
-        word_ad1 = '/word.jpg'
-
-    questions1.append([
-        {
-            'id': quest1[i].id,
-            'name': quest1[i].category.title,
-            'title': f'Вопрос из раздела {quest1[i].category.title}',
-            'ct_id': quest1[i].category.title,
-            'content': f'{quest1[i].text}',
-            'ad': word_ad,
-            'kol': quest1[i].ratingQ_count
-        },
-        {
-            'id': quest1[i+1].id,
-            'name': quest1[i+1].category.title,
-            'title': f'Вопрос из раздела {quest1[i+1].category.title}',
-            'ct_id': quest1[i+1].category.title,
-            'content': f'{quest1[i+1].text}',
-            'ad': word_ad1,
-            'kol': quest1[i+1].ratingQ_count
-        }
-    ])
-
 hu=Profile.objects.hot_users()
 hot_users=[]
 for i in range(1, 6):
@@ -118,7 +67,6 @@ def paginate(objects, page, per_page=2):
     return obj
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login/', redirect_field_name='continue')
 def index(request):
     name=request.user.profile.nickname
@@ -185,18 +133,7 @@ def question(request, q_id):
 
     return render(request, 'thequestion.html', {'question': element,  'comments':comments, 'hot_users':hot_users, 'name':name,  'form': form, 'comments_user':comments_user})
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login/', redirect_field_name='continue')
-def show_hot(request):
-    name = request.user.profile.nickname
-    sh = True
-    page = request.GET.get('page')
-    if not page:
-        page = 1
-    return render(request, 'themain.html', {'questionpair': paginate(questions1, int(page)), 'sh':sh, 'hot_users':hot_users, 'name':name})
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login/', redirect_field_name='continue')
+@login_required(login_url='login', redirect_field_name='continue')
 def category(request, cat_id):
     name = request.user.profile.nickname
     filtered_questions = []
@@ -215,12 +152,11 @@ def category(request, cat_id):
     return render(request, "thecategory.html", {'catquest': paginate(filtered_questions, int(page)), 'hot_users':hot_users, 'name':name})
 
 
-@login_required(login_url='login/', redirect_field_name='continue')
+
 def check_answer(request):
     if request.method == 'POST':
         user_answer = request.POST.get('InputName')
         question_id = request.POST.get('question_id')
-
         try:
             question = Question.objects.get(id=question_id)
         except Question.DoesNotExist:
