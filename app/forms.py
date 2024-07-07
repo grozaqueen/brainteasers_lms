@@ -80,8 +80,7 @@ class RegisterForm(forms.ModelForm):
         password = self.cleaned_data['password']
         user = User.objects.create_user(username=username, email=email, password=password)
         nickname = self.cleaned_data['nickname']
-        avatar = self.cleaned_data['avatar']
-        user_profile = Profile(nickname=nickname, avatar=avatar, user=user)
+        user_profile = Profile(nickname=nickname, user=user)
         user_profile.save()
         return user
 

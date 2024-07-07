@@ -1,50 +1,51 @@
 {% extends 'thebase.html' %}
 {%block content%}
 {% load static %}
+
 <div class = "col-9" >
-              <div class="row"  style="margin-top: 10px; ">
-                    <div class="col-5">
-                        <h3> <strong>{{catquest.0.0.ct_id}}</strong> </h3>
-                    </div>
-              </div>
-              {% for catquest in catquest %}
-                    <div class="rowplusfirst">
-                          <div class="col-2">
-                              <img src="{%static catquest.0.ad%}" height="110px" width="110px"
-                                  style="border: 1px solid black; object-fit: cover; margin-top: 20px; margin-bottom: 20px; margin-left: 2px;">
-                          </div>
-                          <div class="col-9">
-                                <div class="row">
-                                    <a href="{% url 'question' catquest.0.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{catquest.0.title}}
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <div style="font-size: 17px; color:black">{{catquest.0.content}}</div>
-                                </div>
-                                <div class="row">
-                                </div>
-                          </div>
-                    </div>
-
-                    <div class="rowplusunder">
-                      <div class="col-2">
-                              <img src="{%static catquest.1.ad%}" height="110px" width="110px"
-                                  style="border: 1px solid black; object-fit: cover; margin-top: 20px; margin-bottom: 20px; margin-left: 2px;">
-                          </div>
-                          <div class="col-9">
-                                <div class="row">
-                                    <a href="{% url 'question' catquest.1.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{catquest.1.title}}
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <div style="font-size: 17px; color:black">{{catquest.1.content}}</div>
-                                </div>
-                                <div class="row">
-                                </div>
-                          </div>
-                  </div>
-              {% endfor %}
-
-              {% include 'parts/pagination-item.html' %}
+    <div class="row marg_top_10">
+        <div class="col-5">
+            <h3> <strong>{{catquest.0.0.ct_id}}</strong> </h3>
         </div>
+        <div class="col-5 new_questions_col">
+            <a class="my-a-hot-questions new_questions_label" href="{% url 'index'%}">Новые ребусы</a>
+        </div>
+    </div>
+    {% for catquest in catquest %}
+    <div class="rowplusfirst">
+        <div class="col-2">
+            <img src="{%static catquest.0.ad%}" height="110px" width="110px" class="question_img">
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <a href="{% url 'question' catquest.0.id%}" class="question_title"> {{catquest.0.title}}
+                </a>
+            </div>
+            <div class="row">
+                <div class="question_content">{{catquest.0.content}}</div>
+            </div>
+            <div class="row">
+            </div>
+        </div>
+    </div>
+
+    <div class="rowplusunder">
+        <div class="col-2">
+            <img src="{%static catquest.1.ad%}" height="110px" width="110px" class="question_img">
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <a href="{% url 'question' catquest.1.id%}" class="question_title"> {{catquest.1.title}}
+                </a>
+            </div>
+            <div class="row">
+                <div class="question_content">{{catquest.1.content}}</div>
+            </div>
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% include 'parts/pagination-item.html' %}
+</div>
 {% endblock %}

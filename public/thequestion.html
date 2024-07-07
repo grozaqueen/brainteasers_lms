@@ -1,32 +1,32 @@
 {% extends 'thebase.html' %}
 {%block content%}
 {% load static %}
+
 <div class = "col-9" >
     <form method="POST" action="{% url 'check_answer' %}">
         {% csrf_token %}
             <div class="rowplusfirst">
-              <div class="col-2">
-                  <img src="{%static question.ad%}" height="110px" width="110px"
-                      style="border: 1px solid black; object-fit: cover; margin-top: 15px; margin-bottom: 20px; margin-left: 2px;">
-              </div>
-              <div class="col-9">
+                <div class="col-2">
+                    <img src="{%static question.ad%}" height="110px" width="110px" class="quest_img">
+                </div>
+                <div class="col-9">
                     <div class="row">
-                        <a href="{% url 'question' question.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{question.title}}
+                        <a href="{% url 'question' question.id%}" class="quest_title"> {{question.title}}
                         </a>
                     </div>
                     <div class="row">
-                        <div style="font-size: 17px; color:black"> {{question.content}} </div>
+                        <div class="quest_content"> {{question.content}} </div>
                     </div>
               </div>
             </div>
         <input type="hidden" name="question_id" value="{{ question.id }}">
-        <div class="rowplusunder" style="margin-bottom: 100px;">
+        <div class="rowplusunder marg_bot_100">
             <div class="col-3">
-                <label for="InputName" class="form-label" style="margin-top: 20px; font-weight: bold;">Введите свой ответ:</label>
+                <label for="InputName" class="form-label answer_label">Введите свой ответ:</label>
             </div>
-            <div class="col-7" style="margin-top: 10px;">
+            <div class="col-7 marg_top_10">
                 <input type="text" class="form-control" id="InputName" name="InputName" placeholder="..." maxlength="50" required>
-                <p style="font-size: 10px;">Используйте: A-Z, a-z, А-Я, а-я, 1-9, 0</p>
+                <p class="help_info">Используйте: A-Z, a-z, А-Я, а-я, 1-9, 0</p>
             </div>
             <button type="submit" class="btn btn-orange btn-sm btn-custom-height">Ответить</button>
         </div>
@@ -39,53 +39,49 @@
         {% endif %}
     </form>
 
-    <div class="row" style="margin-top: 20px;">
+    <div class="row marg_top_20">
         <div class="col-12">
-            <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">Написать комментарий:</h4>
+            <h4 class="comment_labels">Написать комментарий:</h4>
             <form method="post">
                 {% csrf_token %}
                 {{ form.text }}
-                 <button type="submit" class="btn btn-orange btn-sm btn-custom-height" style="margin-top: 5px">Прокомментировать</button>
+                <button type="submit" class="btn btn-orange btn-sm btn-custom-height marg_top_5">Прокомментировать</button>
             </form>
         </div>
     </div>
 
-    <div class="row" style="margin-top: 20px;">
+    <div class="row marg_top_20">
     <div class="col-12">
-    <h4 style="font-weight: bold; margin-bottom: 10px; margin-top: 15px">Комментарии</h4>
+    <h4 class="comment_labels">Комментарии</h4>
     <ul class="list-unstyled">
         {% for comment in comments %}
             <li>
                 <div class="comment">
-                    <div class="row" style="padding-left: 10px">
-                        <div class="col-6" style="text-align: left">
-                             <a href="#" style="font-size: 20px; text-decoration: underline; color:black; font-weight: bold;">{{ comment.profile.user.username }} считает:
+                    <div class="row pad_left_10">
+                        <div class="col-6 text_al_left">
+                            <a href="#" class="comment_username">{{ comment.profile.user.username }} считает:
                             </a>
                         </div>
                         <div class="col-3">
-
                             {% if comment in comments_user %}
-                             <button class="delete-comment" data-comment-id="{{ comment.id }}">×</button>
+                            <button class="delete-comment" data-comment-id="{{ comment.id }}">×</button>
 
                             <button class="update-comment" data-comment-id="{{ comment.id }}"><span class="text-primary">&lt;</span></button>
                             {% endif %}
-
-
                         </div>
-                           <div class="col-3" style="text-align: right">
-                               <p>{{ comment.date }}</p>
-                               </div>
+                        <div class="col-3 text_al_right">
+                            <p>{{ comment.date }}</p>
+                        </div>
                     </div>
-                    <div class="col-12" style="text-align: left; word-wrap: break-word;">
-                        <div style="font-size: 17px; color:black" id="comment-text-{{ comment.id }}">{{ comment.text }}</div>
-                        <textarea id="edit-text-{{ comment.id }}" style="display: none;"></textarea>
-                        <button id="change-comment-{{ comment.id }}" style="display: none;">Изменить</button>
-
+                    <div class="col-12 comment_change_form">
+                        <div class="comment_text" id="comment-text-{{ comment.id }}">{{ comment.text }}</div>
+                        <textarea id="edit-text-{{ comment.id }}" class="disp_none"></textarea>
+                        <button id="change-comment-{{ comment.id }}" class="disp_none">Изменить</button>
                     </div>
                 </div>
             </li>
         {% empty %}
-            <li>Нет комментариев</li>
+        <li>Нет комментариев</li>
         {% endfor %}
     </ul>
     </div>

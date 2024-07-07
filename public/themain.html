@@ -1,50 +1,47 @@
 {% extends 'thebase.html' %}
 {%block content%}
 {% load static %}
+
 <div class = "col-9" >
-    <div class="row"  style="margin-top: 10px; ">
+    <div class="row marg_top_10">
         <div class="col-5">
-            <h3> <strong>Новые ребусы!</strong> </h3>
+            <h3><strong>Новые ребусы!</strong></h3>
         </div>
     </div>
 
     {% for questionpair in questionpair %}
     <div class="rowplusfirst">
-          <div class="col-2">
-              <img src="{%static questionpair.0.ad%}" height="110px" width="110px"
-                  style="border: 1px solid black; object-fit: cover; margin-top: 20px; margin-bottom: 20px; margin-left: 2px;">
-          </div>
-          <div class="col-9">
-                <div class="row">
-                    <a href="{% url 'question' questionpair.0.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{questionpair.0.title}}
-                    </a>
-                </div>
-                <div class="row">
-                    <div style="font-size: 17px; color:black">{{questionpair.0.content}}</div>
-                </div>
-
-          </div>
-    </div>
-
-    <div class="rowplusunder">
-      <div class="col-2">
-          <img src="{%static questionpair.1.ad%}" height="110px" width="110px" style="border: 1px solid black; object-fit: cover; margin-top: 20px; margin-bottom: 10px; margin-left: 2px;">
-      </div>
-      <div class="col-9">
+        <div class="col-2">
+            <img src="{%static questionpair.0.ad%}" height="110px" width="110px" class="question_img">
+        </div>
+        <div class="col-9">
             <div class="row">
-                <a href="{% url 'question' questionpair.1.id%}" style="font-size: 20px; text-decoration: underline; color:rgb(5, 5, 113);"> {{questionpair.1.title}}
+                <a href="{% url 'question' questionpair.0.id%}" class="question_title"> {{questionpair.0.title}}
                 </a>
             </div>
             <div class="row">
-                <div style="font-size: 17px; color:black"> {{questionpair.1.content}} </div>
+                <div class="question_content">{{questionpair.0.content}}</div>
             </div>
+        </div>
+    </div>
 
+    <div class="rowplusunder">
+        <div class="col-2">
+            <img src="{%static questionpair.1.ad%}" height="110px" width="110px" class="question_img">
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <a href="{% url 'question' questionpair.1.id%}" class="question_title"> {{questionpair.1.title}}
+                </a>
+            </div>
+            <div class="row">
+                <div class="question_content"> {{questionpair.1.content}} </div>
+            </div>
         </div>
     </div>
     {% endfor %}
 
     {% include 'parts/pagination-item.html' %}
 </div>
-
 {% endblock %}
 

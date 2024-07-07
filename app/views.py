@@ -215,7 +215,10 @@ def update_comment(request, comment_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
 def exit(request):
-    print("Kek")
+    print("exit")
     logout(request)
     return redirect(reverse('login'))

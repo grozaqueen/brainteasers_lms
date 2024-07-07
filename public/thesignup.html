@@ -1,76 +1,77 @@
 {% extends 'thebasenoautho.html' %}
 {%block content%}
 {% load static %}
-        <div class="col-9">
-          <h2 style="margin-left: 105px; margin-top: 15px; margin-bottom: 15px;"> <strong>Регистрация</strong> </h2>
-                    <div>
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="rowplusfirst" style="height: 65px">
-                              <div class="col-3">
-                                  <label for="InputNickname" class="form-label" style="margin-top: 10px;">Логин:</label>
-                                </div>
-                                <div class="col-7" style="margin-top: 10px;">
-                                 {{ form.username }}
-                                    <p style="font-size: 10px; color:black">Используйте: A-Z, a-z, _</p>
-                                  </div>
-                            </div>
 
-                            <div class="rowplusunder">
-                              <div class="col-3">
-                                <label for="InputName" class="form-label" style="margin-top: 10px;">Почта:</label>
-                              </div>
-                              <div class="col-7" style="margin-top: 10px;">
-                                {{ form.email }}
-                                    <p style="font-size: 10px;">Используйте: A-Z, a-z, @</p>
-                                </div>
-                                <div class="col-3" style="margin-top: 10px; margin-bottom: 10px;">
-                                  <label for="InputAvatar">НикНейм:</label>
-                                </div>
-                                <div class="col-7" style="margin-top: 10px;margin-bottom: 10px;">
-                                  {{ form.nickname }}
-                                  </div>
-                            </div>
+<div class="col-9">
+    <h2 class="registration_form"> <strong>Регистрация</strong> </h2>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="rowplusfirst height_65">
+                <div class="col-3">
+                    <label for="InputNickname" class="form-label marg_top_10">Логин:</label>
+                </div>
+                <div class="col-7 marg_top_10">
+                    {{ form.username }}
+                    <p class="help_info">Максимум 15 символов. Используйте: A-Z, a-z, _</p>
+                </div>
+            </div>
 
-                            <div class="rowplus">
-                              <div class="col-3" style="margin-top: 10px;">
-                                <label for="InputPassword" class="form-label">Пароль:</label>
-                              </div>
-                              <div class="col-7" style="margin-top: 10px;">
-                               {{ form.password }}
-                                <p style="font-size: 10px;">Используйте: A-Z, a-z; 0-9. Минимум 6 символов.</p>
-                                </div>
-                            </div>
+            <div class="rowplusunder">
+                <div class="col-3">
+                    <label for="InputName" class="form-label marg_top_10">Почта:</label>
+                </div>
+                <div class="col-7 marg_top_10">
+                    {{ form.email }}
+                    <p class="help_info">Максимум 40 символов. Формат почты: "example@example.com". Используйте: A-Z, a-z, @</p>
+                </div>
+                <div class="col-3 marg_top_10 marg_bot_10">
+                    <label for="InputAvatar">НикНейм:</label>
+                </div>
+                <div class="col-7 marg_top_10 marg_bot_10">
+                    {{ form.nickname }}
+                    <p class="help_info">Максимум 30 символов</p>
+                </div>
+            </div>
 
-                            <div class="rowplusunder">
-                                <div class="col-3" style="margin-top: 10px; margin-bottom: 10px;">
-                                <label for="InputPasswordRepeat" class="form-label">Повторите пароль:</label>
-                              </div>
-                              <div class="col-7" style="margin-top: 10px;margin-bottom: 10px;">
-                                {{ form.password_check }}
-                                </div>
+            <div class="rowplus">
+                <div class="col-3 marg_top_10">
+                    <label for="InputPassword" class="form-label">Пароль:</label>
+                </div>
+                <div class="col-7 marg_top_10">
+                    {{ form.password }}
+                    <p class="help_info">Минимум 6 символов. Используйте: A-Z, a-z, 0-9</p>
+                </div>
+            </div>
 
-                            </div>
+            <div class="rowplusunder">
+                <div class="col-3 marg_top_10 marg_bot_10">
+                    <label for="InputPasswordRepeat" class="form-label">Повторите пароль:</label>
+                </div>
+                <div class="col-7 marg_top_10 marg_bot_10">
+                    {{ form.password_check }}
+                     <p class="help_info">Повторите введенный ранее пароль</p>
+                </div>
+             </div>
 
-                            <div class="row" style="margin-left: 105px;">
-                              <button type="submit" class="btn btn-orange">Создать аккаунт</button>
-                            </div>
+            <div class="row marg_left_105">
+                <button type="submit" class="btn btn-orange">Создать аккаунт</button>
+            </div>
 
-                          {% if form.errors %}
-                          <div class="alert alert-danger">
-                            <ul>
-                              {% for field in form %}
-                              {% if field.errors %}
-                              {% for error in field.errors %}
-                              <li>{{ error }}</li>
-                              {% endfor %}
-                              {% endif %}
-                              {% endfor %}
-                            </ul>
-                          </div>
-                          {% endif %}
-
-                        </form>
-                    </div>
-        </div>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for field in form %}
+                    {% if field.errors %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
 {% endblock %}

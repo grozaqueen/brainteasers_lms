@@ -3,39 +3,38 @@
 {% load static %}
 
 <div class="col-9">
-  <h2 style="margin-left: 105px; margin-top: 15px; margin-bottom: 15px;"><strong>Авторизация</strong></h2>
-  <div>
-    <form method="post">
-    {% csrf_token %}
-        <div class="rowplusfirst" style="height: 75px">
-          <div class="col-3">
-            <label for="InputNickname" class="form-label" style="margin-top: 10px;">НикНейм:</label>
-          </div>
-          <div class="col-7" style="margin-top: 10px;">
-            {{ form.username }}
-          </div>
-        </div>
-
-        <div class="rowplusunder">
-          <div class="col-3" style="margin-top: 10px; margin-bottom: 10px;">
-            <label for="InputPassword" class="form-label">Пароль:</label>
-          </div>
-          <div class="col-7" style="margin-top: 10px;margin-bottom: 10px;">
-            {{ form.password}}
+    <h2 class="auth_label"><strong>Авторизация</strong></h2>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="rowplusfirst height_75">
+                <div class="col-3">
+                    <label for="InputNickname" class="form-label marg_top_10">НикНейм:</label>
+                </div>
+                <div class="col-7 marg_top_10">
+                    {{ form.username }}
+                </div>
             </div>
-        </div>
 
-        <div class="row" style="margin-left: 105px;">
-          <button type="submit" class="btn btn-orange">Войти</button>
-        </div>
+            <div class="rowplusunder">
+                <div class="col-3 marg_top_10 marg_bot_10">
+                    <label for="InputPassword" class="form-label">Пароль:</label>
+                </div>
+                <div class="col-7 marg_top_10 marg_bot_10">
+                    {{ form.password}}
+                </div>
+            </div>
 
-     {% if form.errors %}
-        <div class="alert alert-danger" style="margin-top: 10px;">
-              <strong>Неверный пароль или такого пользователя не существует</strong><br>
-        </div>
-      {% endif %}
+            <div class="row marg_left_105">
+                <button type="submit" class="btn btn-orange">Войти</button>
+            </div>
 
-    </form>
-  </div>
+            {% if form.errors %}
+            <div class="alert alert-danger marg_top_10">
+                <strong>Неверный пароль или такого пользователя не существует</strong><br>
+            </div>
+            {% endif %}
+        </form>
+    </div>
 </div>
 {% endblock %}
