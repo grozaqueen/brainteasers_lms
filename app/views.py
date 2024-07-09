@@ -56,10 +56,7 @@ for i in range(0, 80, 2):
     ])
 
 hu=Profile.objects.hot_users()
-hot_users=[]
-for i in range(1, 6):
-    if (hu[i].ratingP_count is not None):
-        hot_users.append([hu[i].nickname, hu[i].ratingP_count])
+hot_users = [[user.nickname, user.ratingP_count] for user in hu if user.ratingP_count != 0][:5]
 
 def paginate(objects, page, per_page=2):
     paginator = Paginator(objects, per_page)

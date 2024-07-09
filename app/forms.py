@@ -41,12 +41,17 @@ class RegisterForm(forms.ModelForm):
         required=True
     )
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email__iexact=email).exists():
+            raise ValidationError('Пользователь с такой электронной почтой уже существует.')
+        return email
     def clean_nickname(self):
         nickname = self.cleaned_data.get('nickname')
         if nickname:
             pattern = r'^[\w.-]*$'
             if not re.match(pattern, nickname):
-                raise forms.ValidationError('В имени пользователя обнаружены недопустимые символы.')
+                raise forms.ValidationError('В никнейме обнаружены недопустимые символы.')
         return nickname
 
     class Meta:
@@ -62,7 +67,6 @@ class RegisterForm(forms.ModelForm):
         if password != password_check:
             self.add_error('password_check', 'Введенные пароли не совпадают.')
             raise ValidationError('Введенные пароли не совпадают.')
-
         username = cleaned_data.get('username')
         nickname = cleaned_data.get('nickname')
 

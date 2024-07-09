@@ -7,12 +7,15 @@ class ProfileManager(models.Manager):
         return self.filter(user=user_id).first()
 
     def hot_users(self):
-        return self.annotate(total_rating=Sum('rating__markU')).order_by('-total_rating')
+        return self.annotate(total_rating=Sum('rating__markU')).filter(total_rating__gt=0).order_by('-total_rating')
 
 class Profile(models.Model):
     def ratingP_count(self):
         r_sum = Rating.objects.filter(prof=self).aggregate(Sum('markU'))
-        return r_sum['markU__sum']
+        if r_sum['markU__sum'] != None:
+            return r_sum['markU__sum']
+        else:
+            return 0
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     avatar = models.ImageField(null=True, blank=True, default='avatar.jpg', upload_to='avatar/%Y/%m/%d')
